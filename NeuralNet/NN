@@ -1,0 +1,69 @@
+package de.uni_hannover.hci.montagsmaler.NeuralNet;
+import java.util.Random;
+
+public class NN{
+
+    double[][] Gewichte;
+    int Epochen;
+    double Lernrate;
+
+    public NN(int E, double L){
+        this.Epochen = E;
+        this.Lernrate = L;
+        Random rand = new Random();
+        for(int i = 0;i < .length; i++){
+            for(int j = 0;j < .length; j++){
+                this.Gewichte[i][j]=rand.nextDouble();
+            }
+        }
+    }
+
+    public NN(int E, double L, double[][] G){
+        this.Epochen = E;
+        this.Lernrate = L;
+        this.Gewichte = G;
+
+    }
+
+    public void train(Data T[]){
+        int[] Erk = new int[T.length];
+        int error;
+        for(int e = 0; e < Epochen; e++){
+            for(int j = 0; j < T.length; j++){
+                for(int k = 0; k < T[0].getEingabevektor().length; k++){
+                    error = T[j].getAusgabe() - output(T[j].getEingabevektor());
+                    Erk[j] = error;
+                Gewichte[k] += Lernrate * error * T[j].getEingabevektor()[k];
+                }
+            }
+            if(0.95 > Erate(Erk)){
+                return;
+            }
+        }
+    }
+    public int output(double[] E){
+        double r = 0;
+        for(int i = 0; i < E.length; i++){
+            r += Gewichte[i] * E[i];
+        }
+        if(r > 0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public double Erate(int[] E){
+        double e = 0;
+        for(int i = 0; i < E.length; i++){
+            e += E[i];
+        }
+        e = e / E.length;
+        return e;
+    }
+
+}
+
+
+
